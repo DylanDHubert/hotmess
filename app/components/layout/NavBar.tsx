@@ -81,7 +81,7 @@ export default function NavBar() {
   }, [pathname, session?.user?.id]);
   
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-sm md:sticky md:top-0 md:border-t-0 md:border-b md:z-10">
+    <nav className="fixed bottom-0 left-0 right-0 glass-nav border-t border-white/20 dark:border-gray-700/30 shadow-lg md:sticky md:top-0 md:border-t-0 md:border-b md:z-10">
       <div className="container mx-auto px-4">
         <div className="flex justify-between md:justify-center md:space-x-16">
           {navItems.map((item) => {
@@ -93,7 +93,7 @@ export default function NavBar() {
               <Link
                 key={item.path}
                 href={item.path}
-                className={`flex flex-col items-center py-3 px-3 md:px-4 transition-colors ${
+                className={`flex flex-col items-center py-3 px-3 md:px-4 transition-all ${
                   isActive 
                     ? "text-blue-600 dark:text-blue-400" 
                     : "text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
@@ -102,7 +102,7 @@ export default function NavBar() {
                 <div className="relative">
                   <Icon className="h-6 w-6 mb-1" />
                   {item.path === "/messages" && unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 bg-red-500/90 backdrop-blur-sm text-white text-xs rounded-full h-4 w-4 flex items-center justify-center border border-white/30 dark:border-red-700/30 shadow-sm">
                       {unreadCount > 9 ? '9+' : unreadCount}
                     </span>
                   )}

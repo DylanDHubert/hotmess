@@ -1,26 +1,110 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --foreground-rgb: 23, 23, 23;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 245, 245, 245;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground-rgb: 237, 237, 237;
+    --background-start-rgb: 10, 10, 10;
+    --background-end-rgb: 20, 20, 20;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: radial-gradient(
+      ellipse at top left,
+      rgba(var(--background-start-rgb), 0.7),
+      rgba(var(--background-end-rgb), 0.3)
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      rgba(79, 70, 229, 0.15),
+      rgba(219, 39, 119, 0.1)
+    );
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+@layer components {
+  .glass {
+    @apply backdrop-blur-md bg-white/70 dark:bg-gray-800/70 border border-white/20 dark:border-gray-700/30 shadow-lg;
+  }
+  
+  .glass-card {
+    @apply backdrop-blur-md bg-white/70 dark:bg-gray-800/70 rounded-lg shadow-lg border border-white/20 dark:border-gray-700/30 transition-all hover:shadow-xl;
+  }
+  
+  .glass-input {
+    @apply border border-white/30 dark:border-gray-700/50 rounded-md bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-blue-500/70;
+  }
+  
+  .glass-button {
+    @apply backdrop-blur-sm bg-white/70 dark:bg-gray-800/70 border border-white/30 dark:border-gray-700/30 shadow-md transition-all hover:bg-white/50 dark:hover:bg-gray-700/50;
+  }
+  
+  .glass-button-primary {
+    @apply backdrop-blur-sm bg-blue-600/90 hover:bg-blue-700/90 border border-white/10 dark:border-blue-500/30 shadow-md transition-all;
+  }
+  
+  .glass-button-secondary {
+    @apply backdrop-blur-sm bg-gray-200/90 dark:bg-gray-700/90 border border-white/20 dark:border-gray-600/30 shadow-md transition-all hover:bg-gray-300/90 dark:hover:bg-gray-600/90;
+  }
+  
+  .glass-nav {
+    @apply backdrop-blur-md bg-white/70 dark:bg-gray-800/70 shadow-lg;
+  }
+  
+  .glass-container {
+    @apply backdrop-blur-md bg-white/60 dark:bg-gray-800/60 rounded-lg shadow-lg border border-white/20 dark:border-gray-700/30 p-6;
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(241, 241, 241, 0.2);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.3);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(136, 136, 136, 0.5);
+}
+
+/* Animated background gradients */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient {
+  background: linear-gradient(-45deg, 
+    rgba(59, 130, 246, 0.15), 
+    rgba(139, 92, 246, 0.15), 
+    rgba(236, 72, 153, 0.15), 
+    rgba(34, 211, 238, 0.15)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+  background-attachment: fixed;
 }

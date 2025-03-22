@@ -11,10 +11,10 @@ export default async function Home() {
       {session ? (
         <div>
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-semibold text-gray-800 dark:text-white">Your Feed</h1>
+            <h1 className="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Your Feed</h1>
             <Link 
               href="/post" 
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 glass-button-primary bg-blue-600/90 hover:bg-blue-700/90 text-white rounded-full backdrop-blur-sm border border-white/10 dark:border-blue-500/30 shadow-md transition-all"
             >
               <PlusCircleIcon className="h-5 w-5" />
               <span className="hidden sm:inline">Create Post</span>
@@ -25,40 +25,40 @@ export default async function Home() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <h1 className="text-4xl font-bold mb-6 text-gray-900 dark:text-white">Welcome to SocialApp</h1>
+          <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Welcome to SocialApp</h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-xl mx-auto leading-relaxed">
             Connect with friends, share your moments, and discover interesting content from people around the world.
           </p>
           <div className="flex justify-center space-x-4 mb-16">
             <Link
               href="/login"
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-sm"
+              className="glass-button-primary px-6 py-3 bg-blue-600/90 text-white rounded-lg font-medium hover:bg-blue-700/90 transition shadow-md backdrop-blur-sm border border-white/10 dark:border-blue-500/30"
             >
               Log In
             </Link>
             <Link
               href="/signup"
-              className="px-6 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition shadow-sm"
+              className="glass-button px-6 py-3 bg-white/70 dark:bg-gray-800/70 border border-white/30 dark:border-gray-600/30 text-gray-800 dark:text-white rounded-lg font-medium hover:bg-white/50 dark:hover:bg-gray-700/50 transition shadow-md backdrop-blur-sm"
             >
               Sign Up
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 transition-all hover:shadow-md">
+            <div className="glass-card p-8 rounded-xl shadow-md border border-white/20 dark:border-gray-700/30 transition-all hover:shadow-lg backdrop-blur-md bg-white/70 dark:bg-gray-800/70">
               <div className="text-blue-600 dark:text-blue-400 text-4xl mb-4">👥</div>
               <h2 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Connect</h2>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                 Find and connect with friends, family, and interesting people.
               </p>
             </div>
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 transition-all hover:shadow-md">
+            <div className="glass-card p-8 rounded-xl shadow-md border border-white/20 dark:border-gray-700/30 transition-all hover:shadow-lg backdrop-blur-md bg-white/70 dark:bg-gray-800/70">
               <div className="text-blue-600 dark:text-blue-400 text-4xl mb-4">📸</div>
               <h2 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Share</h2>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                 Share your photos, thoughts, and experiences with your network.
               </p>
             </div>
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 transition-all hover:shadow-md">
+            <div className="glass-card p-8 rounded-xl shadow-md border border-white/20 dark:border-gray-700/30 transition-all hover:shadow-lg backdrop-blur-md bg-white/70 dark:bg-gray-800/70">
               <div className="text-blue-600 dark:text-blue-400 text-4xl mb-4">🔍</div>
               <h2 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Discover</h2>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">

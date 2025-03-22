@@ -301,215 +301,197 @@ export default function PostCard({ post }: PostCardProps) {
   };
   
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden mb-4">
-      {/* Post Header */}
-      <div className="p-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <Link href={`/profile/${post.user.id}`} className="relative w-12 h-12 rounded-full overflow-hidden mr-3 border-2 border-white dark:border-gray-700 shadow-sm hover:opacity-90 transition-opacity">
+    <div className="backdrop-blur-md bg-white/70 dark:bg-gray-800/70 rounded-lg shadow-lg border border-white/20 dark:border-gray-700/30 overflow-hidden mb-4 transition-all hover:shadow-xl">
+      {/* Post Header - Author Info */}
+      <div className="flex items-start p-4">
+        <Link href={`/profile/${post.user.id}`} className="shrink-0">
+          <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-white/60 dark:border-gray-700/60 shadow-sm">
             {post.user.image ? (
-              <Image
-                src={post.user.image}
-                alt={post.user.name || "User"}
-                fill
+              <Image 
+                src={post.user.image} 
+                alt={post.user.name || "User"} 
+                fill 
+                sizes="48px"
                 className="object-cover"
               />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-400 to-blue-600 text-white font-bold text-lg">
-                {post.user.name?.charAt(0) || "U"}
+              <div className="h-full w-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                <span className="text-gray-500 dark:text-gray-400 text-lg font-bold">
+                  {post.user.name?.charAt(0).toUpperCase() || "U"}
+                </span>
               </div>
             )}
-          </Link>
-          <div>
-            <Link href={`/profile/${post.user.id}`} className="font-medium text-gray-900 dark:text-white hover:underline">
-              {post.user.name || "Anonymous User"}
-            </Link>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
-            </p>
+          </div>
+        </Link>
+        
+        <div className="ml-3 flex-grow">
+          <div className="flex justify-between items-start">
+            <div>
+              <Link 
+                href={`/profile/${post.user.id}`}
+                className="font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
+              >
+                {post.user.name}
+              </Link>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
+              </p>
+            </div>
+            
+            {session?.user?.id && post.user.id !== session.user.id && (
+              <button
+                onClick={handleFollowToggle}
+                disabled={isLoadingFollow || isCheckingFollow}
+                className={`ml-2 flex items-center space-x-1 text-xs px-2 py-1 rounded-full transition-all ${
+                  isFollowing
+                    ? "bg-gray-200/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-700 dark:text-gray-300 hover:bg-red-100/80 hover:text-red-600 dark:hover:bg-red-900/30 dark:hover:text-red-400 border border-gray-200/50 dark:border-gray-700/50"
+                    : "bg-blue-100/80 dark:bg-blue-900/30 backdrop-blur-sm text-blue-600 dark:text-blue-400 hover:bg-blue-200/80 dark:hover:bg-blue-800/30 border border-blue-200/50 dark:border-blue-800/50"
+                }`}
+              >
+                {isFollowing ? (
+                  <>
+                    <UserMinusIcon className="h-3 w-3" />
+                    <span>Unfollow</span>
+                  </>
+                ) : (
+                  <>
+                    <UserPlusIcon className="h-3 w-3" />
+                    <span>Follow</span>
+                  </>
+                )}
+              </button>
+            )}
           </div>
         </div>
-        
-        {/* Follow/Unfollow Button */}
-        {session?.user && session.user.id !== post.user.id && !isCheckingFollow && (
-          <button
-            onClick={handleFollowToggle}
-            disabled={isLoadingFollow}
-            className={`flex items-center space-x-1 px-3 py-1 rounded-md text-sm ${
-              isFollowing
-                ? "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-                : "bg-blue-600 text-white"
-            }`}
-          >
-            {isFollowing ? (
-              <>
-                <UserMinusIcon className="h-4 w-4 mr-1" />
-                <span>{isLoadingFollow ? "Loading..." : "Unfollow"}</span>
-              </>
-            ) : (
-              <>
-                <UserPlusIcon className="h-4 w-4 mr-1" />
-                <span>{isLoadingFollow ? "Loading..." : "Follow"}</span>
-              </>
-            )}
-          </button>
-        )}
       </div>
       
       {/* Post Content */}
       <div className="px-4 pb-3">
-        <p className="whitespace-pre-line text-gray-800 dark:text-gray-200">{post.content}</p>
+        <p className="text-gray-800 dark:text-gray-200 whitespace-pre-line">{post.content}</p>
       </div>
       
-      {/* Post Image (if any) */}
+      {/* Post Image */}
       {post.imageUrl && (
-        <div className="relative h-80 w-full border-t border-b border-gray-100 dark:border-gray-700">
+        <div className="relative w-full aspect-video bg-gray-100 dark:bg-gray-900 overflow-hidden">
           <Image
             src={post.imageUrl}
             alt="Post image"
             fill
+            sizes="(max-width: 768px) 100vw, 768px"
             className="object-cover"
           />
         </div>
       )}
       
-      {/* Post Stats */}
-      <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400">
-        <div className="flex justify-between">
-          <span>{likeCount} {likeCount === 1 ? 'like' : 'likes'}</span>
-          <span>{commentCount} {commentCount === 1 ? 'comment' : 'comments'}</span>
-          <span>{shareCount} {shareCount === 1 ? 'share' : 'shares'}</span>
-        </div>
-      </div>
-      
       {/* Post Actions */}
-      <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700 flex justify-between">
+      <div className="flex items-center justify-between px-4 py-3 border-t border-white/10 dark:border-gray-700/30">
         <button 
           onClick={handleLike}
-          className={`flex items-center space-x-1 px-3 py-1 rounded-md ${
+          className={`flex items-center space-x-1 px-2 py-1 rounded-md ${
             liked 
-              ? "text-red-600 dark:text-red-400" 
-              : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-          }`}
+              ? "text-red-600 dark:text-red-500" 
+              : "text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-500"
+          } transition-colors hover:bg-white/10 hover:backdrop-blur-sm dark:hover:bg-gray-700/30`}
         >
-          {liked ? (
-            <HeartIconSolid className="h-5 w-5" />
-          ) : (
-            <HeartIcon className="h-5 w-5" />
-          )}
-          <span>Like</span>
+          {liked ? <HeartIconSolid className="h-5 w-5" /> : <HeartIcon className="h-5 w-5" />}
+          <span className="text-sm">{likeCount}</span>
         </button>
         
         <button 
-          onClick={handleComment}
-          className={`flex items-center space-x-1 px-3 py-1 rounded-md ${
+          onClick={() => {
+            setShowComments(!showComments);
+            if (!showComments && commentInputRef.current) {
+              setTimeout(() => commentInputRef.current?.focus(), 100);
+            }
+          }}
+          className={`flex items-center space-x-1 px-2 py-1 rounded-md ${
             showComments 
-              ? "text-blue-600 dark:text-blue-400" 
-              : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-          }`}
+              ? "text-blue-600 dark:text-blue-500" 
+              : "text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500"
+          } transition-colors hover:bg-white/10 hover:backdrop-blur-sm dark:hover:bg-gray-700/30`}
         >
-          {showComments ? (
-            <ChatBubbleLeftIconSolid className="h-5 w-5" />
-          ) : (
-            <ChatBubbleLeftIcon className="h-5 w-5" />
-          )}
-          <span>Comment</span>
+          {showComments ? <ChatBubbleLeftIconSolid className="h-5 w-5" /> : <ChatBubbleLeftIcon className="h-5 w-5" />}
+          <span className="text-sm">{commentCount}</span>
         </button>
         
         <button 
           onClick={handleShare}
-          className={`flex items-center space-x-1 px-3 py-1 rounded-md ${
+          className={`flex items-center space-x-1 px-2 py-1 rounded-md ${
             shared 
-              ? "text-green-600 dark:text-green-400" 
-              : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-          }`}
+              ? "text-green-600 dark:text-green-500" 
+              : "text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-500"
+          } transition-colors hover:bg-white/10 hover:backdrop-blur-sm dark:hover:bg-gray-700/30`}
         >
-          {shared ? (
-            <ShareIconSolid className="h-5 w-5" />
-          ) : (
-            <ShareIcon className="h-5 w-5" />
-          )}
-          <span>Share</span>
+          {shared ? <ShareIconSolid className="h-5 w-5" /> : <ShareIcon className="h-5 w-5" />}
+          <span className="text-sm">{shareCount}</span>
         </button>
       </div>
       
       {/* Comments Section */}
       {showComments && (
-        <div className="px-4 py-3 border-t border-gray-100 dark:border-gray-700">
-          {/* Comment Input */}
-          {session?.user && (
-            <div className="flex items-center mb-4">
-              <div className="relative w-8 h-8 rounded-full overflow-hidden mr-2">
-                {session.user.image ? (
-                  <Image
-                    src={session.user.image}
-                    alt={session.user.name || "User"}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-400 to-blue-600 text-white font-bold text-sm">
-                    {session.user.name?.charAt(0) || "U"}
-                  </div>
-                )}
-              </div>
-              <input
-                ref={commentInputRef}
-                type="text"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Write a comment..."
-                className="flex-1 py-2 px-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey && !isSubmittingComment) {
-                    e.preventDefault();
-                    submitComment();
-                  }
-                }}
-              />
-              <button
-                onClick={submitComment}
-                disabled={isSubmittingComment || !newComment.trim()}
-                className="ml-2 px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium disabled:opacity-50"
-              >
-                {isSubmittingComment ? "Posting..." : "Post"}
-              </button>
-            </div>
-          )}
+        <div className="px-4 pb-4 space-y-4 backdrop-blur-sm bg-white/20 dark:bg-gray-900/20 border-t border-white/10 dark:border-gray-700/30">
+          {/* Comment Form */}
+          <form onSubmit={submitComment} className="flex items-center mt-3">
+            <input
+              ref={commentInputRef}
+              type="text"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Write a comment..."
+              className="flex-grow px-3 py-2 bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm border border-white/30 dark:border-gray-700/50 rounded-l-md focus:outline-none focus:ring-1 focus:ring-blue-400"
+              disabled={isSubmittingComment || !session?.user}
+            />
+            <button
+              type="submit"
+              disabled={isSubmittingComment || !newComment.trim() || !session?.user}
+              className="bg-blue-600/80 backdrop-blur-sm hover:bg-blue-700/80 text-white px-4 py-2 rounded-r-md font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all border border-blue-400/30"
+            >
+              Post
+            </button>
+          </form>
           
           {/* Comments List */}
-          <div className="space-y-3 max-h-80 overflow-y-auto">
+          <div className="space-y-3 max-h-96 overflow-y-auto custom-scrollbar">
             {comments.length > 0 ? (
               comments.map((comment) => (
-                <div key={comment.id} className="flex">
-                  <div className="relative w-8 h-8 rounded-full overflow-hidden mr-2 flex-shrink-0">
-                    {comment.user.image ? (
-                      <Image
-                        src={comment.user.image}
-                        alt={comment.user.name || "User"}
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-400 to-blue-600 text-white font-bold text-sm">
-                        {comment.user.name?.charAt(0) || "U"}
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <div className="bg-gray-100 dark:bg-gray-700 rounded-lg px-3 py-2">
-                      <Link href={`/profile/${comment.user.id}`} className="font-medium text-gray-900 dark:text-white hover:underline">
-                        {comment.user.name || "Anonymous User"}
-                      </Link>
-                      <p className="text-sm text-gray-800 dark:text-gray-200">{comment.content}</p>
+                <div key={comment.id} className="flex items-start">
+                  <Link href={`/profile/${comment.user.id}`} className="shrink-0">
+                    <div className="relative h-8 w-8 rounded-full overflow-hidden border border-white/40 dark:border-gray-700/40">
+                      {comment.user.image ? (
+                        <Image 
+                          src={comment.user.image} 
+                          alt={comment.user.name || "User"} 
+                          fill 
+                          sizes="32px"
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="h-full w-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                          <span className="text-gray-500 dark:text-gray-400 text-xs font-bold">
+                            {comment.user.name?.charAt(0).toUpperCase() || "U"}
+                          </span>
+                        </div>
+                      )}
                     </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 ml-1">
-                      {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
-                    </p>
+                  </Link>
+                  <div className="ml-2 flex-grow bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm rounded-md p-2 border border-white/20 dark:border-gray-700/30">
+                    <div className="flex justify-between items-baseline">
+                      <Link 
+                        href={`/profile/${comment.user.id}`}
+                        className="font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 text-sm"
+                      >
+                        {comment.user.name}
+                      </Link>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                        {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
+                      </span>
+                    </div>
+                    <p className="text-gray-800 dark:text-gray-200 text-sm mt-1">{comment.content}</p>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-center text-gray-500 dark:text-gray-400 py-4">No comments yet. Be the first to comment!</p>
+              <p className="text-center text-gray-500 dark:text-gray-400 text-sm py-2">No comments yet. Be the first to comment!</p>
             )}
           </div>
         </div>

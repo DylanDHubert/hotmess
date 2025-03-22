@@ -18,12 +18,12 @@ export default function Header() {
   };
   
   return (
-    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+    <header className="glass-nav border-b border-white/20 dark:border-gray-700/30 shadow-lg">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo and Title */}
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full overflow-hidden flex items-center justify-center shadow-sm transition-transform group-hover:scale-105">
+            <div className="relative w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full overflow-hidden flex items-center justify-center shadow-md transition-transform group-hover:scale-105 border border-white/30 dark:border-purple-700/30">
               <span className="text-white font-bold text-xl">S</span>
             </div>
             <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">SocialApp</h1>
@@ -35,7 +35,7 @@ export default function Header() {
               <>
                 <Link 
                   href="/profile" 
-                  className="flex items-center space-x-2 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors px-3 py-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="flex items-center space-x-2 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-all px-3 py-1.5 rounded-md hover:bg-white/10 hover:backdrop-blur-md dark:hover:bg-gray-700/30"
                 >
                   <UserIcon className="h-5 w-5" />
                   <span className="font-medium">
@@ -45,7 +45,7 @@ export default function Header() {
                 
                 <button
                   onClick={handleSignOut}
-                  className="flex items-center space-x-2 px-3 py-1.5 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  className="flex items-center space-x-2 px-3 py-1.5 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 rounded-md hover:bg-white/10 hover:backdrop-blur-md dark:hover:bg-gray-700/30 transition-all"
                   aria-label="Sign out"
                 >
                   <ArrowRightOnRectangleIcon className="h-5 w-5" />
@@ -56,13 +56,13 @@ export default function Header() {
               <div className="flex space-x-2">
                 <Link
                   href="/login"
-                  className="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  className="glass-button px-4 py-2 text-gray-700 dark:text-gray-300 border border-white/30 dark:border-gray-600/30 rounded-lg font-medium hover:bg-white/10 transition-all"
                 >
                   Log in
                 </Link>
                 <Link
                   href="/signup"
-                  className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 transition-colors shadow-sm"
+                  className="glass-button-primary px-4 py-2 bg-gradient-to-r from-blue-600/90 to-blue-700/90 backdrop-blur-sm text-white rounded-lg font-medium hover:from-blue-700/90 hover:to-blue-800/90 transition-all shadow-md border border-white/10 dark:border-blue-500/30"
                 >
                   Sign up
                 </Link>
